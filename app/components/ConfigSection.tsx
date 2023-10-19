@@ -63,6 +63,7 @@ export default function ConfigSection({ config, setConfig }: Props) {
         </Button>
 
         <Collapse in={configOpened}>
+          <Text>※ ログインすると設定を保存できます</Text>
           <Stack>
             <TextInput
               label="お名前"
