@@ -11,6 +11,7 @@ import ConfigSection from "./ConfigSection";
 
 export default function Main() {
   const [fate, setFate] = useState("");
+  const [receiveCount, setReceiveCount] = useState(-1);
   const [isCopied, setIsCopied] = useState(false);
   const [config, setConfig] = useState<ConfigBody>({});
 
@@ -18,10 +19,16 @@ export default function Main() {
   const isDarkMode = useMantineColorScheme().colorScheme == "dark";
   const dimmedColor = isDarkMode ? "" : "grey";
 
+  function receiveFate() {
+    setReceiveCount(receiveCount + 1);
+    setFate(receive());
+  }
+
   function copyText() {
     // Phase I: Clipboard
     const text =
       `${config.displayName ?? "あんた"}の今日の運命は「${config.useMarkdown ? `**${fate}**` : fate}」です\n` +
+      `${receiveCount > 0 ? `※ 引き直した回数：${receiveCount}回\n` : ""}` +
       "#今日の御神託 #ENDROIT.NET\n" +
       `${process.env.NEXT_PUBLIC_BASE_URL}\n`;
     navigator.clipboard.writeText(text);
@@ -34,7 +41,8 @@ export default function Main() {
   function shareToX() {}
 
   useEffect(() => {
-    setFate(receive());
+    receiveFate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -60,7 +68,7 @@ export default function Main() {
       </Paper>
 
       <Group>
-        <Button variant="light" color="red" leftSection={<Send size={18} />} onClick={() => setFate(receive())}>
+        <Button variant="light" color="red" leftSection={<Send size={18} />} onClick={() => receiveFate()}>
           引きなおす
         </Button>
         <Button
