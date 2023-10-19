@@ -1,0 +1,11 @@
+.config {
+  margin: 16px 0;
+}
+
+.config__button {
+  margin-bottom: 8px;
+}
+
+.config__detail {
+  margin: 16px 0;
+}
