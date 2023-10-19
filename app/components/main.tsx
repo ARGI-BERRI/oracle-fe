@@ -4,7 +4,7 @@ import styles from "./css/main.module.css";
 
 import { useEffect, useState } from "react";
 import { Button, Center, Group, Paper, Skeleton, Text, useMantineColorScheme } from "@mantine/core";
-import { Send, Clipboard, CheckCircle } from "react-feather";
+import { Send, Clipboard, CheckCircle, Share2 } from "react-feather";
 import { receive } from "@/app/lib/BuiltinOracle";
 import EntranceSection from "./EntranceSection";
 import ConfigSection from "./ConfigSection";
@@ -30,6 +30,8 @@ export default function Main() {
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
   }
+
+  function shareToX() {}
 
   useEffect(() => {
     setFate(receive());
@@ -69,7 +71,7 @@ export default function Main() {
         >
           {isCopied ? "コピー完了" : "コピーする"}
         </Button>
-        <Button variant="subtle" color="gray">
+        <Button variant="subtle" color="gray" leftSection={<Share2 size={18} />} onClick={() => shareToX()}>
           X で共有
         </Button>
       </Group>
