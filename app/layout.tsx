@@ -4,8 +4,8 @@ import { MantineProvider, ColorSchemeScript, Container } from "@mantine/core";
 import NextAuthProvider from "./components/NextAuth";
 
 const siteName = "ENDROIT.NET";
-const title = "神託機械";
-const description = "神託機械から御神託を頂けるサイトです。";
+const title = "浅葱神社 おみくじコーナー - Omikuji of ASAGI Shrine";
+const description = "浅葱神社のおみくじコーナーであなたの運勢を占ってみましょう……";
 const url = process.env.NEXT_PUBLIC_BASE_URL ?? "";
 
 export const metadata = {

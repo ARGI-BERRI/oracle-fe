@@ -27,9 +27,9 @@ export default function Main() {
   function copyText() {
     // Phase I: Clipboard
     const text =
-      `${config.displayName ?? "あんた"}の今日の運命は「${config.useMarkdown ? `**${fate}**` : fate}」です\n` +
+      `${config.displayName ?? "あなた"}の今日の運勢は「${config.useMarkdown ? `**${fate}**` : fate}」です\n` +
       `${receiveCount > 0 ? `※ 引き直した回数：${receiveCount}回\n` : ""}` +
-      "#今日の御神託 #ENDROIT.NET\n" +
+      "#おみくじコーナー #浅葱神社\n" +
       `${process.env.NEXT_PUBLIC_BASE_URL}\n`;
     navigator.clipboard.writeText(text);
 
@@ -51,7 +51,7 @@ export default function Main() {
 
       <Paper className={styles.oracleOutcome} radius="sm" p="xl" withBorder>
         <Text c={dimmedColor}>
-          <strong>{config.displayName || "あんた"}</strong>の今日の運勢は
+          <strong>{config.displayName || "あなた"}</strong>の今日の運勢は
         </Text>
         <Center mt={"lg"} mb={"lg"}>
           {fate ? (
