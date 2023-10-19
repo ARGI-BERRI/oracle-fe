@@ -4,18 +4,32 @@ import styles from "./css/main.module.css";
 
 import { useEffect, useState } from "react";
 import { Button, Center, Group, Paper, Skeleton, Text, useMantineColorScheme } from "@mantine/core";
-import { Send, Clipboard } from "react-feather";
+import { Send, Clipboard, CheckCircle } from "react-feather";
 import { receive } from "@/app/lib/BuiltinOracle";
 import EntranceSection from "./EntranceSection";
 import ConfigSection from "./ConfigSection";
 
 export default function Main() {
   const [fate, setFate] = useState("");
+  const [isCopied, setIsCopied] = useState(false);
   const [config, setConfig] = useState<ConfigBody>({});
 
   // color theme
   const isDarkMode = useMantineColorScheme().colorScheme == "dark";
   const dimmedColor = isDarkMode ? "" : "grey";
+
+  function copyText() {
+    // Phase I: Clipboard
+    const text =
+      `${config.displayName ?? "あんた"}の今日の運命は「${config.useMarkdown ? `**${fate}**` : fate}」です\n` +
+      "#今日の御神託 #ENDROIT.NET\n" +
+      `${process.env.NEXT_PUBLIC_BASE_URL}\n`;
+    navigator.clipboard.writeText(text);
+
+    // Phase II: Button transition
+    setIsCopied(true);
+    setTimeout(() => setIsCopied(false), 2000);
+  }
 
   useEffect(() => {
     setFate(receive());
@@ -47,8 +61,13 @@ export default function Main() {
         <Button variant="light" color="red" leftSection={<Send size={18} />} onClick={() => setFate(receive())}>
           引きなおす
         </Button>
-        <Button variant="light" color="gray" leftSection={<Clipboard size={18} />}>
-          コピー
+        <Button
+          variant="light"
+          color="gray"
+          leftSection={isCopied ? <CheckCircle size={18} /> : <Clipboard size={18} />}
+          onClick={() => copyText()}
+        >
+          {isCopied ? "コピー完了" : "コピーする"}
         </Button>
         <Button variant="subtle" color="gray">
           X で共有
