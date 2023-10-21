@@ -32,7 +32,7 @@ export default function Main() {
     // Phase I: Clipboard
     const text =
       `${config.displayName ?? "あなた"}の今日の運勢は「${config.useMarkdown ? `**${fate}**` : fate}」です\n` +
-      `${receiveCount > 0 ? `※ 引き直した回数：${receiveCount}回\n` : ""}` +
+      `${config.rememberPast && receiveCount > 0 ? `※ 引き直した回数：${receiveCount}回\n` : ""}` +
       "#おみくじコーナー #浅葱神社\n" +
       `${process.env.NEXT_PUBLIC_BASE_URL}\n`;
     navigator.clipboard.writeText(text);
