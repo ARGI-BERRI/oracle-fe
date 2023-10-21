@@ -19,9 +19,13 @@ export default function Main() {
   const isDarkMode = useMantineColorScheme().colorScheme == "dark";
   const dimmedColor = isDarkMode ? "" : "grey";
 
-  function receiveFate() {
+  async function receiveFate() {
     setReceiveCount(receiveCount + 1);
-    setFate(receive());
+
+    const endpoint = `${process.env.NEXT_PUBLIC_BASE_URL}/api/oracle/?funny=${config.receiveFunnyFate}`;
+    const response = await (await fetch(endpoint)).json();
+
+    setFate(response.fate);
   }
 
   function copyText() {
