@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# oracle-fe
 
-## Getting Started
+*[oracle-fe](https://gitlab.com/ARGI-BERRI/oracle-fe)* は *[oracle-api](https://gitlab.com/ARGI-BERRI/oracle-api)* のフロントエンド実装です。*oracle-fe* は *oracle-api* の機能と認証機能、そしていくつかの追加設定とその管理機能を見やすいインタフェースの上に実現します。
 
-First, run the development server:
+## 機能
+
+- *oracle-api* の全機能（所与条件に基づく御神託の受信機能）
+- 御神託の引き直し機能
+- 御神託のクリップボードへのコピー機能
+- 変な御神託の受信管理、クリップボードのコピー設定の管理
+- 設定の保存機能（GitHub 認証を通した場合のみ）
+
+## ライセンス
+
+AGPLv3
+
+## 開発について
+
+### 開発サーバの起動
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+$ pnpm install 
+# -> 依存関係が解決されます
+$ pnpm dev     
+# -> 開発サーバが起動します
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+追加の設定をしていない場合は、`http://localhost:3000` からアプリケーションを閲覧できます。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### アプリケーションの配置
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+*oracle-fe* は Vercel への配置のみをサポートしています。Vercel Serverless Function と互換するならば他の CI/CD 基盤でも運用できますが、安定した動作は保証できません。
 
-## Learn More
+Vercel に限らず何らかの基盤に配置する際は、続く節の「環境変数」を基盤の設定で導入してください。環境変数の設定がない場合、アプリケーションのビルドは失敗します。
 
-To learn more about Next.js, take a look at the following resources:
+### 環境変数
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```ini
+# アプリケーション全体のベースドメイン。
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# oracle-api のエンドポイント。
+ORACLE_URL=https://example.com
 
-## Deploy on Vercel
+# 認証基盤（next-auth）の OAuth 認証に使用する GitHub クライアント ID とシークレット。
+GITHUB_ID=...
+GITHUB_SECRET=...
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# 認証基盤（next-auth）で使用するベースドメイン。NEXT_PUBLIC_BASE_URL と通常同一。
+NEXTAUTH_URL=http://localhost:3000
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# openssl rand -base64 32 などで出力される秘密鍵。
+NEXTAUTH_SECRET=...
+
+# 利用者毎の設定を保存する PostgresSQL サーバのエンドポイント。
+DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/mydb?schema=public"
+```
